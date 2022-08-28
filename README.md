@@ -1,5 +1,4 @@
-# Understat
-A text editor that just rocks!!!
+# Markr
 
 ## Usage
 
@@ -7,11 +6,11 @@ A text editor that just rocks!!!
 
 ## Author
 
-* Madhu Surisetti (madhuofficialcontact@gmail.com)
+* Madhu Surisetti (madhu.officialcontact@gmail.com)
 
 ## Copyright
 
-Copyright (c) 2022 Madhu Surisetti (madhuofficialcontact@gmail.com)
+Copyright (c) 2022 Madhu Surisetti (madhu.officialcontact@gmail.com)
 
 ## License
 

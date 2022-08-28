@@ -1,22 +1,21 @@
-(defsystem "understat"
+(defsystem "markr"
   :version "0.1.0"
   :author "Madhu Surisetti"
   :license "MIT"
-  :depends-on ("clack"
-               "cl-annot")
+  :depends-on ("clog")
   :components ((:module "src"
                 :components
                 ((:file "main"))))
-  :description "A text editor that just rocks!!!"
-  :in-order-to ((test-op (test-op "understat/tests"))))
+  :description ""
+  :in-order-to ((test-op (test-op "markr/tests"))))
 
-(defsystem "understat/tests"
+(defsystem "markr/tests"
   :author "Madhu Surisetti"
   :license "MIT"
-  :depends-on ("understat"
+  :depends-on ("markr"
                "rove")
   :components ((:module "tests"
                 :components
                 ((:file "main"))))
-  :description "Test system for understat"
+  :description "Test system for markr"
   :perform (test-op (op c) (symbol-call :rove :run c)))

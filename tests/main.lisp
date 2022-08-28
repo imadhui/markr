@@ -1,10 +1,10 @@
-(defpackage understat/tests/main
+(defpackage markr/tests/main
   (:use :cl
-        :understat
+        :markr
         :rove))
-(in-package :understat/tests/main)
+(in-package :markr/tests/main)
 
-;; NOTE: To run this test file, execute `(asdf:test-system :understat)' in your Lisp.
+;; NOTE: To run this test file, execute `(asdf:test-system :markr)' in your Lisp.
 
 (deftest test-target-1
   (testing "should (= 1 1) to be true"

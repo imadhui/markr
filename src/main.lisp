@@ -1,5 +1,8 @@
-(defpackage understat
-  (:use :cl))
-(in-package :understat)
+(defpackage markr
+  (:use :cl :clog))
+(in-package :markr)
 
-;; blah blah blah.
+
+;(defcom ()
+; (:div
+;  (:h1 "This is markr!")))
