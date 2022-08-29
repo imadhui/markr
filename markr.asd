@@ -2,7 +2,7 @@
   :version "0.1.0"
   :author "Madhu Surisetti"
   :license "MIT"
-  :depends-on ("clog")
+  :depends-on ("clog" "cells")
   :components ((:module "src"
                 :components
                 ((:file "main"))))
