@@ -1,5 +1,18 @@
 (in-package :markr)
 
+(defmodel var ()
+  ((val :accessor val
+        :initarg :val
+        :initform (c-in "vasi"))))
+
+(defparameter r (make-instance 'var))
+
+(defparameter *counter* (make-instance 'var :val (c-in 0)))
+
+(defobserver val ((self var))
+  (print "recompile - reconcile")
+  (and *old-guard* *body* (reconcile *old-guard* (get-jsx) *body*)))
+
 (defparameter *body* nil)
 
 (defun click-print (&rest args)
@@ -7,7 +20,7 @@
                                :green
                                :red)))
 
-(defmacro newcom (name args com)
+(defmacro defcom (name args com)
   `(progn
      (defmodel ,name ()
        ((fbody :accessor fbody
@@ -17,31 +30,16 @@
             *body*
             (reconcile *old-guard* (get-jsx) *body*)))
      (defun ,name ,args
-       (fbody (make-instance ',name :fbody (c? ,com))))))
+       (fbody (make-instance ',name :fbody (c? ,com))))
+     (incf (val *counter*))))
 
-(defmodel var ()
-  ((val :accessor val
-        :initarg :val
-        :initform (c-in "vasi"))
-   (rul :accessor rul
-        :initarg :rul
-        :initform (c? (concatenate 'string "va" "ms" "i" (val self))))
-   (new :accessor new
-        :initarg :new
-        :initform (c? (concatenate 'string (rul self) "jing")))))
+(defcom :hello ()
+        `(:h5 (:on-click click-print) ,(format nil "Hellooo ~A!" "Madhu")))
 
-(defobserver rul ((self var))
-  (format t "ruled cell changed!!!"))
-
-(defparameter r (make-instance 'var))
-
-(newcom :hello ()
-        `(:h2 (:on-click click-print) ,(format nil "Hellooo ~A!" (val r))))
-
-(newcom :test ()
+(defcom :test ()
   `(:div ()
          (:h1 () "This is a Header")
-         (:p (:style "color: blue") "This is aa paragraph")
+         (:p (:style "color: red") "This is aa paragraph")
          ,(:hello)
          ,(val r)))
 
