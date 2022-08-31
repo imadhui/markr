@@ -8,6 +8,7 @@
                 ((:file "package")
                  (:file "parser")
                  (:file "render")
+                 (:file "reconciler")
                  (:file "main"))))
   :description ""
   :in-order-to ((test-op (test-op "markr/tests"))))

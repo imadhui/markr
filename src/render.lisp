@@ -1,5 +1,7 @@
 (in-package :markr)
 
+(defparameter *old-guard* nil)
+
 (defun text-onlyp (sons)
   (and (null (cdr sons)) (stringp (car sons))))
 
@@ -18,17 +20,22 @@
                   container
                   (format nil "<~A></~A>" (tag node) (tag node)))))
     (set-traits (traits node) current)
+    (setf (el node) current)
     (mapcar (lambda (son)
               (render-node son current))
             (sons node))
     current))
 
 (defmethod render-node ((node text-node) container)
-  (place-text-inside-bottom-of container (value node)))
+  (setf (el node)
+        (create-child container (format nil "<div>~A</div>" (value node)))))
 
 (defparameter *top-level* nil)
 
 (defmacro render (component root)
   `(progn
+     (defun get-jsx ()
+       (parse ,component))
      (setf (inner-html ,root) "")
-     (render-node (parse ,component) ,root)))
+     (setf *old-guard* (get-jsx))
+     (render-node *old-guard* ,root)))

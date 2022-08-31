@@ -13,7 +13,9 @@
        ((fbody :accessor fbody
                :initarg :fbody)))
      (defobserver fbody ((self ,name))
-       (and old-value *body* (run-app)))
+       (and old-value
+            *body*
+            (reconcile *old-guard* (get-jsx) *body*)))
      (defun ,name ,args
        (fbody (make-instance ',name :fbody (c? ,com))))))
 

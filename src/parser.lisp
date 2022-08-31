@@ -6,7 +6,10 @@
    (traits :initarg :traits
            :accessor traits)
    (sons :initarg :sons
-         :accessor sons)))
+         :accessor sons)
+   (el :initarg :el
+       :accessor el
+       :initform nil)))
 
 (defclass text-node (node)
   ((tag :initform :text)
@@ -14,9 +17,6 @@
    (sons :initform nil)
    (value :initarg :value
           :accessor value)))
-
-(defun make-node (component)
-  )
 
 (defun hashify-traits (trait-list)
   (let ((h (make-hash-table :test #'equal)))
