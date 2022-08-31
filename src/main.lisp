@@ -13,18 +13,18 @@
                                :red)))
 
 (defmacro defcom (name args component)
-  (declare (ignore args))
   `(defun ,name ,args ,component))
 
 (defparameter s "heheh")
 
 (defcom :hello ()
-    `(:h1 (:on-click click-print) ,s))
+    `(:h2 (:on-click click-print) ,s))
 
 (defcom :test ()
   `(:div ()
          (:h1 () "This is a Header")
-         (:p (:style "color: blue") "This is a paragraph")))
+         (:p (:style "color: blue") "This is a paragraph")
+         ,(:hello)))
 
 (defun on-new-window (body)
   (render (:test) body))
