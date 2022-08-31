@@ -1,6 +1,5 @@
 (in-package :markr)
 
-
 (defparameter *body* nil)
 
 (defun click-print (&rest args)
@@ -12,11 +11,11 @@
   `(progn
      (defmodel ,name ()
        ((fbody :accessor fbody
-               :initarg :fbody
-               :initform (c? (lambda ,args ,com)))))
+               :initarg :fbody)))
+     (defobserver fbody ((self ,name))
+       (format t "~%~%fbody of ~A changed~%~%" ,name))
      (defun ,name ,args
-       (apply (fbody (make-instance ',name))
-              (list ,@args)))))
+       (fbody (make-instance ',name :fbody (c? ,com))))))
 
 (defmodel var ()
   ((val :accessor val
@@ -34,14 +33,15 @@
 
 (defparameter r (make-instance 'var))
 
-(newcom :hello (pname)
-        `(:h2 (:on-click click-print) ,(format nil "Hellooo ~A!" pname)))
+(newcom :hello ()
+        `(:h2 (:on-click click-print) ,(format nil "Hellooo ~A!" (val r))))
 
 (newcom :test ()
   `(:div ()
          (:h1 () "This is a Header")
          (:p (:style "color: blue") "This is aa paragraph")
-         ,(:hello (val r))))
+         ,(:hello)
+         ,(val r)))
 
 (defun on-new-window (body)
   (setf *body* body)
