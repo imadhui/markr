@@ -13,7 +13,7 @@
        ((fbody :accessor fbody
                :initarg :fbody)))
      (defobserver fbody ((self ,name))
-       (format t "~%~%fbody of ~A changed~%~%" ,name))
+       (and old-value *body* (run-app)))
      (defun ,name ,args
        (fbody (make-instance ',name :fbody (c? ,com))))))
 
