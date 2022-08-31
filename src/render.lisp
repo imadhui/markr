@@ -26,5 +26,9 @@
 (defmethod render-node ((node text-node) container)
   (place-text-inside-bottom-of container (value node)))
 
+(defparameter *top-level* nil)
+
 (defmacro render (component root)
-  `(render-node (parse ,component) ,root))
+  `(progn
+     (setf (inner-html ,root) "")
+     (render-node (parse ,component) ,root)))
