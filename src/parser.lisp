@@ -1,22 +1,16 @@
 (in-package :markr)
 
 (defclass node ()
-  ((tag :initarg :tag
-        :accessor tag)
-   (traits :initarg :traits
-           :accessor traits)
-   (sons :initarg :sons
-         :accessor sons)
-   (el :initarg :el
-       :accessor el
-       :initform nil)))
+  ((tag :initarg :tag :accessor tag)
+   (traits :initarg :traits :accessor traits)
+   (sons :initarg :sons :accessor sons)
+   (el :initarg :el :accessor el :initform nil)))
 
 (defclass text-node (node)
   ((tag :initform :text)
    (traits :initform nil)
    (sons :initform nil)
-   (value :initarg :value
-          :accessor value)))
+   (value :initarg :value :accessor value)))
 
 (defun hashify-traits (trait-list)
   (let ((h (make-hash-table :test #'equal)))

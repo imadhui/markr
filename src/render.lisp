@@ -2,8 +2,7 @@
 
 (defparameter *old-guard* nil)
 
-(defun text-onlyp (sons)
-  (and (null (cdr sons)) (stringp (car sons))))
+(defparameter *top-level* nil)
 
 (defun set-traits (hash-table el)
   (maphash (lambda (trait value)
@@ -15,27 +14,21 @@
 (defgeneric render-node (node container)
   (:documentation "renders node to the screen"))
 
+(defun create-tag-string (tag) (format nil "<~A></~A>" tag tag))
+
 (defmethod render-node ((node node) container)
-  (let ((current (create-child
-                  container
-                  (format nil "<~A></~A>" (tag node) (tag node)))))
+  (let ((current (create-child container (create-tag-string (tag node)))))
     (set-traits (traits node) current)
     (setf (el node) current)
-    (mapcar (lambda (son)
-              (render-node son current))
-            (sons node))
+    (mapcar (lambda (son) (render-node son current)) (sons node))
     current))
 
 (defmethod render-node ((node text-node) container)
-  (setf (el node)
-        (create-child container (format nil "<div>~A</div>" (value node)))))
-
-(defparameter *top-level* nil)
+  (setf (el node) (create-div container :content (value node))))
 
 (defmacro render (component root)
   `(progn
      (defun get-jsx ()
        (parse ,component))
-     (setf (inner-html ,root) "")
-     (setf *old-guard* (get-jsx))
+     (setf (inner-html ,root) "" *old-guard* (get-jsx))
      (render-node *old-guard* ,root)))

@@ -23,22 +23,3 @@
      (defun ,name ,args
        (fbody (make-instance ',name :fbody (c? ,com))))
      (incf (val *counter*))))
-
-(defun clicked (&rest args) (setf (color (car args)) :green))
-
-(defcom :hello ()
-        `(:h5 (:on-click clicked) ,(format nil "Hellooo ~A!" "Madhu")))
-
-(defcom :test ()
-  `(:div ()
-         (:h1 () "This is a Header")
-         (:p (:style "color: red") "This is aa paragraph")
-         ,(:hello)))
-
-(defun on-new-window (body)
-  (setf *body* body)
-  (render (:test) body))
-
-(defun run-app ()
-  (initialize 'on-new-window)
-  (open-browser))
