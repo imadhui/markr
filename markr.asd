@@ -6,6 +6,7 @@
   :components ((:module "src"
                 :components
                 ((:file "package")
+                 (:file "utils")
                  (:file "parser")
                  (:file "render")
                  (:file "reconciler")

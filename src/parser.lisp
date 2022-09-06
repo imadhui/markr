@@ -1,5 +1,12 @@
 (in-package :markr)
 
+(defclass chrep ()
+  ((lid :accessor lid :initarg :lid :initform nil)
+   ;; lisp id
+   (tobe :accessor tobe :initarg :tobe :initform nil)
+   ;; to be parsed
+   ))
+
 (defclass node ()
   ((tag :initarg :tag :accessor tag)
    (traits :initarg :traits :accessor traits)
@@ -26,6 +33,13 @@
 
 (defmethod parse ((com string))
   (make-instance 'text-node :value com))
+
+(defmethod parse ((com chrep))
+  (make-instance 'node
+                 :lid (lid com)
+                 :tag (car (tobe com))
+                 :traits (hashify-traits (cadr (tobe com)))
+                 :sons (mapcar 'parse (cddr (tobe com)))))
 
 (defmethod parse (com)
   (make-instance 'node

@@ -18,6 +18,9 @@
        (and old-value
             *body*
             (reconcile *old-guard* (get-jsx) *body*)))
-     (defun ,name ,args
-       (fbody (make-instance ',name :fbody (c? ,com))))
+     (defun ,name (,@args &key lid)
+       (make-instance
+        'chrep
+        :lid lid
+        :tobe (fbody (make-instance ',name :fbody (c? ,com)))))
      (incf (val *counter*))))
