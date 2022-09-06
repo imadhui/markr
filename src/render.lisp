@@ -1,5 +1,7 @@
 (in-package :markr)
 
+(defparameter *body* nil)
+
 (defparameter *old-guard* nil)
 
 (defparameter *top-level* nil)
@@ -28,6 +30,7 @@
 
 (defmacro render (component root)
   `(progn
+     (setf *body* ,root)
      (defun get-jsx ()
        (parse ,component))
      (setf (inner-html ,root) "" *old-guard* (get-jsx))

@@ -8,8 +8,6 @@
 (defobserver val ((self var))
   (and *old-guard* *body* (reconcile *old-guard* (get-jsx) *body*)))
 
-(defparameter *body* nil)
-
 (defparameter *counter* (make-instance 'var :val (c-in 0)))
 
 (defmacro defcom (name args com)
