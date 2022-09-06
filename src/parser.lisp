@@ -4,7 +4,8 @@
   ((tag :initarg :tag :accessor tag)
    (traits :initarg :traits :accessor traits)
    (sons :initarg :sons :accessor sons)
-   (el :initarg :el :accessor el :initform nil)))
+   (el :initarg :el :accessor el :initform nil)
+   (lid :initarg :lid :accessor lid :initform nil)))
 
 (defclass text-node (node)
   ((tag :initform :text)
