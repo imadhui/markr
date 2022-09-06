@@ -6,11 +6,11 @@
 
 ## Author
 
-* Madhu Surisetti (madhu.officialcontact@gmail.com)
+* Madhu Surisetti (imadhui.cs@gmail.com)
 
 ## Copyright
 
-Copyright (c) 2022 Madhu Surisetti (madhu.officialcontact@gmail.com)
+Copyright (c) 2022 Madhu Surisetti (imadhui.cs@gmail.com)
 
 ## License
 
