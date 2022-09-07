@@ -5,11 +5,7 @@
   :depends-on ("clog" "cells")
   :components ((:module "src"
                 :components
-                ((:file "package")
-                 (:file "utils")
-                 (:file "parser")
-                 (:file "render")
-                 (:file "reconciler")
+                ((:file "utils")
                  (:file "main"))))
   :description ""
   :in-order-to ((test-op (test-op "markr/tests"))))
