@@ -1,8 +1,3 @@
-(defpackage markr
-  (:use :cl :clog :cells)
-  (:shadow :value)
-  (:export :defcom :render))
-
 (in-package :markr)
 
 (defmodel sig ()
@@ -18,9 +13,7 @@
 
 (defobserver fbody ((self component))
   ;; reconcile after dependencies change
-  (and old-value
-            *body*
-            (reconcile *old-guard* (get-jsx) *body*)))
+  (and old-value *body* (reconcile *old-guard* (get-jsx) *body*)))
 
 (defmacro defcom (name args com)
   `(progn
@@ -29,7 +22,7 @@
      (incf (val *recom-signal*))))
 
 (defun my-subst-if (mod test tree)
-  "Substitutes new for subtrees for which test is true."
+  "Substitutes the result of apply mod for subtrees for which test is true."
   (labels ((s (subtree)
              (cond ((funcall test subtree) (funcall mod subtree))
                    ((atom subtree) subtree)
@@ -85,10 +78,6 @@
 (defun eventp (attribute)
   "return the setter for the event, if attribute is an event"
   (gethash attribute *eve*))
-
-(defmacro aif (test then &optional else)
-  `(let ((it ,test))
-     (if it ,then ,else)))
 
 (defun set-traits (hash-table el)
   (maphash (lambda (trait value)

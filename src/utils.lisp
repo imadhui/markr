@@ -1,3 +1,8 @@
+(defpackage markr
+  (:use :cl :clog :cells)
+  (:shadow :value)
+  (:export :defcom :render))
+
 (in-package :markr)
 
 (defparameter *body* nil "stores the html body object")
@@ -42,11 +47,3 @@
 (defmacro aif (test then &optional else)
   `(let ((it ,test))
      (if it ,then ,else)))
-
-(defun ret (lid &optional (node *old-guard*))
-  (unless (null node)
-    (if (equal (lid node) lid)
-        (el node)
-        (let ((kids (sons node)))
-          (do ((kid (ret lid (pop kids)) (ret lid (pop kids))))
-              ((or (null kids) (typep kid 'clog:clog-element)) kid))))))
