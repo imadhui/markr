@@ -34,13 +34,6 @@
 (defmethod parse ((com string))
   (make-instance 'text-node :value com))
 
-(defmethod parse ((com chrep))
-  (make-instance 'node
-                 :lid (lid com)
-                 :tag (car (tobe com))
-                 :traits (hashify-traits (cadr (tobe com)))
-                 :sons (mapcar 'parse (cddr (tobe com)))))
-
 (defmethod parse (com)
   (make-instance 'node
                  :tag (car com)

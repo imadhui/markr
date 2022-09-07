@@ -10,11 +10,20 @@
 
 (defparameter *counter* (make-instance 'var :val (c-in 0)))
 
+(defparameter *temp* 0)
+
+(defparameter *com-count* 0)
+
+(defun make-com (com-name fbody)
+  (incf *com-count*)
+  (make-instance com-name :fbody fbody))
+
 (defmacro defcom (name args com)
   `(progn
      (defmodel ,name ()
        ((fbody :accessor fbody :initarg :fbody)))
      (defobserver fbody ((self ,name))
+       (incf *temp*)
        (and old-value
             *body*
             (reconcile *old-guard* (get-jsx) *body*)))
@@ -22,5 +31,7 @@
        (make-instance
         'chrep
         :lid lid
-        :tobe (fbody (make-instance ',name :fbody (c? ,com)))))
+        :tobe (fbody (make-com ',name (c? ,com)))))
      (incf (val *counter*))))
+
+
