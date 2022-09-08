@@ -6,7 +6,8 @@
 (defparameter *recom-signal* (make-instance 'sig))
 (defobserver val ((self sig))
   ;; reconcile after recompilation of a component
-  (and *old-guard* *body* (reconcile *old-guard* (get-jsx) *body*)))
+  ;; or instead or reconciling, you should just rerender everything.
+  (and *old-guard* *body* (reconcile *old-guard* (get-jsx t) *body*)))
 
 (defmodel component ()
   ((fbody :accessor fbody :initarg :fbody)))
@@ -104,8 +105,8 @@
 (defmacro render (form root)
   `(let ((ins ,form))
      (setf *body* ,root)
-     (defun get-jsx ()
-       (parse (query-htcl ins)))
+     (defun get-jsx (&optional (new-ins nil))
+       (parse (query-htcl (if new-ins (setf ins ,form) ins))))
      (setf (inner-html ,root) "" *old-guard* (get-jsx))
      (render-node *old-guard* ,root)))
 
