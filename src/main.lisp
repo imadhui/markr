@@ -10,11 +10,13 @@
   (and *old-guard* *body* (reconcile *old-guard* (get-jsx t) *body*)))
 
 (defmodel component ()
-  ((fbody :accessor fbody :initarg :fbody)))
+  ((fbody :accessor fbody :initarg :fbody)
+   (disabled :accessor disabled :initform (c-in nil))))
 
 (defobserver fbody ((self component))
   ;; reconcile after dependencies change
-  (and old-value *body* (reconcile *old-guard* (get-jsx) *body*)))
+  ;; the disabled flag works only for top level component. Fix it.
+  (and (not (^disabled)) old-value *body* (reconcile *old-guard* (get-jsx) *body*)))
 
 (defmacro defcom (name args com)
   `(progn
@@ -39,6 +41,14 @@
   (let ((s (my-subst-if 'fbody (lambda (x) (typep x 'component)) instance)))
     (if (equal s (my-subst-if 'fbody (lambda (x) (typep x 'component)) s))
         s (query-htcl s))))
+
+(defun disable-component (instance)
+  (flet ((dis (ins)
+           (with-integrity (:change) (setf (disabled ins) t))
+           (fbody ins)))
+      (let ((s (my-subst-if #'dis (lambda (x) (typep x 'component)) instance)))
+        (if (equal s (my-subst-if #'dis (lambda (x) (typep x 'component)) s))
+            s (disable-component s)))))
 
 ;; Parsing
 
@@ -106,7 +116,10 @@
   `(let ((ins ,form))
      (setf *body* ,root)
      (defun get-jsx (&optional (new-ins nil))
-       (parse (query-htcl (if new-ins (setf ins ,form) ins))))
+       (parse (query-htcl (if new-ins
+                              (progn (disable-component ins)
+                                     (setf ins ,form))
+                              ins))))
      (setf (inner-html ,root) "" *old-guard* (get-jsx))
      (render-node *old-guard* ,root)))
 
